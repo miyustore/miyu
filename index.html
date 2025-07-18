@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Özür Mesajı</title>
+  <style>
+    body {
+      background: #000;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+    .square {
+      width: 200px;
+      height: 200px;
+      background: #fff;
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 16px;
+    }
+    .message {
+      font-size: 2.2rem;
+      text-align: center;
+      margin-top: 16px;
+      margin-bottom: 24px;
+    }
+    .single-line {
+      white-space: nowrap;
+      display: inline-block;
+    }
+    .buttons {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      margin-top: 8px;
+    }
+    .yes {
+      background: #27ae60;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 32px;
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .yes:hover {
+      background: #219150;
+    }
+    .no {
+      background: #e74c3c;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 32px;
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .no:hover {
+      background: #c0392b;
+    }
+    .yes, .no {
+      background: #27ae60;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 20px 48px;
+      font-size: 2rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background 0.2s;
+    }
+    .yes {
+      background: #27ae60;
+    }
+    .yes:hover {
+      background: #219150;
+    }
+    .no {
+      background: #e74c3c;
+      margin-left: 24px;
+    }
+    .no:hover {
+      background: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <div class="square">
+    <img src="photo.jpg" alt="Kare Fotoğraf" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">
+  </div>
+  <div class="message">
+    <span class="single-line">Seni çok özledim minatommm dönn ne olur birbirimizden vazgeçmeyelim<br>
+birlikte sonsuza kadar savaşıp herşeyi atlatalımm civcivimmm<br>
+herşey için çok özür dilerimmm beni affeder misinnn ????</span>
+  </div>
+  <div class="buttons">
+    <button class="yes" id="yesBtn">EVET</button>
+    <button class="no" id="noBtn">HAYIR</button>
+  </div>
+  <div id="videoContainer" style="display:none; margin-top:32px;"></div>
+  <audio id="bgMusic" src="müzik.mp3" loop></audio>
+</body>
+</html>
+<script>
+  const noBtn = document.getElementById('noBtn');
+  const yesBtn = document.getElementById('yesBtn');
+  const videoContainer = document.getElementById('videoContainer');
+  let clickCount = 0;
+  let noBtnGone = false;
+  const bgMusic = document.getElementById('bgMusic');
+  // Kullanıcı ilk tıklamada müziği başlat
+  let musicStarted = false;
+  function startMusic() {
+    if (!musicStarted && bgMusic) {
+      bgMusic.play();
+      musicStarted = true;
+    }
+  }
+  window.addEventListener('click', function() {
+    startMusic();
+  }, { once: true });
+  noBtn.addEventListener('click', function(e) {
+    clickCount++;
+    if (clickCount >= 10) {
+      noBtn.style.display = 'none';
+      noBtnGone = true;
+      return;
+    }
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+    const parent = noBtn.parentElement;
+    const parentRect = parent.getBoundingClientRect();
+    const maxLeft = window.innerWidth - btnWidth - 20;
+    const maxTop = window.innerHeight - btnHeight - 20;
+    const left = Math.random() * maxLeft;
+    const top = Math.random() * maxTop;
+    noBtn.style.position = 'fixed';
+    noBtn.style.left = left + 'px';
+    noBtn.style.top = top + 'px';
+    noBtn.style.zIndex = 1000;
+  });
+  yesBtn.addEventListener('click', function() {
+    if(bgMusic) bgMusic.pause();
+    document.body.innerHTML = `
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:#000;">
+        <div style="color:#fff;font-size:2.2rem;font-weight:bold;margin-bottom:32px;text-align:center;">CEVABININ EVET OLDUĞUNU BİLİYORDUMM! ☺️</div>
+        <video src="video.mp4" controls autoplay loop style="display:block;margin:0 auto;max-width:60vw;max-height:60vh;background:#000;border-radius:24px;box-shadow:0 0 32px #222;"></video>
+      </div>
+    `;
+    document.body.style.background = '#000';
+  });
+</script>
